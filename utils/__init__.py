@@ -1,25 +1,10 @@
+import os
+from datetime import datetime
 import time
-
 import numpy as np
 import torch
 from matplotlib import pyplot as plt
 from torch import nn
-
-
-def begin_state(model, device, batch_size, hidden_size, bidirectional=1):
-    if model.bidirectional:
-        bidirectional = 2
-    if not model.isLSTM:
-        return torch.zeros((bidirectional * model.num_layers,
-                            batch_size, hidden_size),
-                           device=device)
-    else:
-        return (torch.zeros((
-            bidirectional * model.num_layers,
-            batch_size, hidden_size), device=device),
-                torch.zeros((
-                    bidirectional * model.num_layers,
-                    batch_size, hidden_size), device=device))
 
 
 class Timer:
@@ -80,8 +65,9 @@ def init_weights(m):
         nn.init.xavier_uniform_(m.weight)
 
 
-def train_model(net, loss_fn, optimizer, epochs, device, dataloader, test_dataloader, save_best=False, init=None,
-                scheduler=None):
+def train_model(net, loss_fn, optimizer, epochs, device, dataloader, test_dataloader, save_best=False, save_dir="",
+                init=None,
+                scheduler=None, log_num=1):
     if init is False:
         pass
     elif not init:
@@ -96,6 +82,7 @@ def train_model(net, loss_fn, optimizer, epochs, device, dataloader, test_datalo
     net.to(device)
     timer = Timer()
     best_acc = 0
+    best_net = None
     print("Training starting")
     for ep in range(1, epochs + 1):
         correct = 0.0
@@ -135,12 +122,23 @@ def train_model(net, loss_fn, optimizer, epochs, device, dataloader, test_datalo
 
         if save_best and best_acc < test_acc[-1]:
             best_acc = test_acc[-1]
-            torch.save(net.state_dict(), "Best_Param.pt")
+            best_net = net
 
-        print(f'Epoch: {ep}, train loss: {loss:.3f}, test loss: {test_ls:.3f}, train acc: {acc:.3f}, '
-              f'test acc: {test_acc_ep:.3f}')
-        print(f'{num / timer.times[-1]:.1f} examples/sec '
-              f'on {str(device)} total training time:{timer.sum():.1f} sec')
+        if ep % log_num == 0:
+            print(f'Epoch: {ep}, train loss: {loss:.3f}, validation loss: {test_ls:.3f}, train acc: {acc:.3f}, '
+                  f'validation acc: {test_acc_ep:.3f}')
+            print(f'{num / timer.times[-1]:.1f} examples/sec '
+                  f'on {str(device)} total training time:{timer.sum():.1f} sec')
+    if best_net:
+        t = datetime.now()
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
+        best_path = os.path.join(save_dir, "Best_Model_" + str(t).replace(":", "-") + ".pt")
+        try:
+            torch.save(best_net, best_path)
+            print("Best accuracy", best_acc, "\nSave model in", best_path)
+        except:
+            print("Failed to save model in", best_path)
 
     return train_loss, test_loss, train_acc, test_acc
 
@@ -148,7 +146,7 @@ def train_model(net, loss_fn, optimizer, epochs, device, dataloader, test_datalo
 def drawGraph(train_ls, test_ls, train_acc, test_acc):
     epochs = [i for i in range(1, 1 + len(train_ls))]
     plt.plot(epochs, train_ls, label='train loss')
-    plt.plot(epochs, test_ls, label='test loss')
+    plt.plot(epochs, test_ls, label='validation loss')
     plt.title('Loss')
     plt.xlabel('epoch')
     plt.ylabel('loss')
@@ -156,14 +154,14 @@ def drawGraph(train_ls, test_ls, train_acc, test_acc):
     plt.show()
 
     plt.plot(epochs, train_acc, label='train accuracy')
-    plt.plot(epochs, test_acc, label='test accuracy')
+    plt.plot(epochs, test_acc, label='validation accuracy')
     plt.title('Accuracy')
     plt.xlabel('epoch')
     plt.ylabel('accuracy')
     plt.legend()
     plt.show()
 
-    
+
 def evaluate_rnn(net, loss_fn, device, dataloader):
     """
     :param net: 模型
@@ -187,6 +185,7 @@ def evaluate_rnn(net, loss_fn, device, dataloader):
             num += y.numel()
     return correct / num, loss / num
 
+
 def train_rnn(net, loss_fn, optimizer, epochs, device, dataloader, test_dataloader, save_best=False, init=None,
               scheduler=None, theta=1):
     if init is False:
@@ -200,7 +199,6 @@ def train_rnn(net, loss_fn, optimizer, epochs, device, dataloader, test_dataload
     test_loss = []
     train_acc = []
     test_acc = []
-#     net.to(device)
     timer = Timer()
     best_acc = 0
     print("Training starting")
@@ -216,13 +214,13 @@ def train_rnn(net, loss_fn, optimizer, epochs, device, dataloader, test_dataload
                 state = net.begin_state(batch_size=X.shape[0], device=device)
             else:
                 if isinstance(net, nn.Module) and not isinstance(state, tuple):
-                # nn.GRU
+                    # nn.GRU
                     state.detach_()
                 else:
-                # nn.LSTM
+                    # nn.LSTM
                     for s in state:
                         s.detach_()
-            
+
             X = X.to(device)
             y = y.to(device)
             y_hat, state = net(X, state)
@@ -257,7 +255,7 @@ def train_rnn(net, loss_fn, optimizer, epochs, device, dataloader, test_dataload
             best_acc = test_acc[-1]
             torch.save(net.state_dict(), "Best_Param.pt")
 
-        print(f'Epoch: {ep}, train loss: {loss:.3f}, test loss: {test_ls:.3f}, train acc: {acc:.3f}, '
+        print(f'Epoch: {ep}, mean loss: {loss:.3f}, test loss: {test_ls:.3f}, mean acc: {acc:.3f}, '
               f'test acc: {test_acc_ep:.3f}')
         print(f'{num / timer.times[-1]:.1f} examples/sec '
               f'on {str(device)} total training time:{timer.sum():.1f} sec')
@@ -271,3 +269,9 @@ def grad_clipping(net, theta):
     if norm > theta:
         for param in params:
             param.grad[:] *= theta / norm
+
+
+def mean_embeddings(embeddings: torch.Tensor) -> torch.Tensor:
+    if len(embeddings.shape) == 1:
+        return embeddings
+    return torch.mean(embeddings, dim=0)

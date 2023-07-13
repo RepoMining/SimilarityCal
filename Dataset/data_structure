@@ -1,0 +1,6 @@
+pkl--repo--{'topic': type
+'codes_embeddings': tensor,
+'docs_embeddings': tensor,
+'structure_embeddings': tensor,
+'requirements_embeddings': tensor,
+'readme_embeddings': tensor}
