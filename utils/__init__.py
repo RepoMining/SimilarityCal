@@ -162,32 +162,8 @@ def drawGraph(train_ls, test_ls, train_acc, test_acc):
     plt.show()
 
 
-def evaluate_rnn(net, loss_fn, device, dataloader):
-    """
-    :param net: 模型
-    :param loss_fn: 损失函数
-    :param device: 设备
-    :param dataloader: 使用dataloader来降低内存
-    :return: 正确率， 损失
-    """
-    correct = 0.0
-    loss = 0.0
-    num = 0
-    with torch.no_grad():
-        for X, y in dataloader:
-            state = net.begin_state(batch_size=X.shape[0], device=device)
-            X = X.to(device)
-            y = y.to(device)
-            y_hat, _ = net(X, state)
-            loss += loss_fn(y_hat, y).sum()
-            y_hat = torch.argmax(y_hat, dim=1)
-            correct += (y_hat == y.reshape(y_hat.shape, -1)).sum().float()
-            num += y.numel()
-    return correct / num, loss / num
-
-
-def train_rnn(net, loss_fn, optimizer, epochs, device, dataloader, test_dataloader, save_best=False, init=None,
-              scheduler=None, theta=1):
+def train_rnn(net, loss_fn, optimizer, epochs, device, dataloader, test_dataloader, save_best=False, save_dir="",
+              init=None, scheduler=None, log_num=1):
     if init is False:
         pass
     elif not init:
@@ -199,8 +175,10 @@ def train_rnn(net, loss_fn, optimizer, epochs, device, dataloader, test_dataload
     test_loss = []
     train_acc = []
     test_acc = []
+    net.to(device)
     timer = Timer()
     best_acc = 0
+    best_net = None
     print("Training starting")
     for ep in range(1, epochs + 1):
         state = None
@@ -211,29 +189,24 @@ def train_rnn(net, loss_fn, optimizer, epochs, device, dataloader, test_dataload
         timer.start()
         for X, y in dataloader:
             if state is None:
-                state = net.begin_state(batch_size=X.shape[0], device=device)
+                state = net.begin_state(device=device, batch_size=X[0][0].shape[0])
             else:
-                if isinstance(net, nn.Module) and not isinstance(state, tuple):
-                    # nn.GRU
-                    state.detach_()
-                else:
-                    # nn.LSTM
-                    for s in state:
-                        s.detach_()
+                for s in state:
+                    s.detach_()
 
-            X = X.to(device)
             y = y.to(device)
             y_hat, state = net(X, state)
             loss_ep = loss_fn(y_hat, y).sum()
             optimizer.zero_grad()
             loss_ep.backward()
-            grad_clipping(net, theta)
+            grad_clipping(net, 1)
             optimizer.step()
             with torch.no_grad():
                 y_hat = torch.argmax(y_hat, dim=1)
                 correct += (y_hat == y.reshape(y_hat.shape, -1)).sum().float()
                 num += y.numel()
                 loss += loss_ep
+
         timer.stop()
 
         with torch.no_grad():
@@ -253,14 +226,48 @@ def train_rnn(net, loss_fn, optimizer, epochs, device, dataloader, test_dataload
 
         if save_best and best_acc < test_acc[-1]:
             best_acc = test_acc[-1]
-            torch.save(net.state_dict(), "Best_Param.pt")
+            best_net = net
 
-        print(f'Epoch: {ep}, mean loss: {loss:.3f}, test loss: {test_ls:.3f}, mean acc: {acc:.3f}, '
-              f'test acc: {test_acc_ep:.3f}')
-        print(f'{num / timer.times[-1]:.1f} examples/sec '
-              f'on {str(device)} total training time:{timer.sum():.1f} sec')
+        if ep % log_num == 0:
+            print(f'Epoch: {ep}, train loss: {loss:.3f}, validation loss: {test_ls:.3f}, train acc: {acc:.3f}, '
+                  f'validation acc: {test_acc_ep:.3f}')
+            print(f'{num / timer.times[-1]:.1f} examples/sec '
+                  f'on {str(device)} total training time:{timer.sum():.1f} sec')
+    if best_net:
+        t = datetime.now()
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
+        best_path = os.path.join(save_dir, "Best_Model_" + str(t).replace(":", "-") + ".pt")
+        try:
+            torch.save(best_net, best_path)
+            print("Best accuracy", best_acc, "\nSave model in", best_path)
+        except:
+            print("Failed to save model in", best_path)
 
     return train_loss, test_loss, train_acc, test_acc
+
+
+def evaluate_rnn(net, loss_fn, device, dataloader):
+    """
+    :param net: 模型
+    :param loss_fn: 损失函数
+    :param device: 设备
+    :param dataloader: 使用dataloader来降低内存
+    :return: 正确率， 损失
+    """
+    correct = 0.0
+    loss = 0.0
+    num = 0
+    with torch.no_grad():
+        for X, y in dataloader:
+            state = net.begin_state(device=device, batch_size=X[0][0].shape[0])
+            y = y.to(device)
+            y_hat, _ = net(X, state)
+            loss += loss_fn(y_hat, y).sum()
+            y_hat = torch.argmax(y_hat, dim=1)
+            correct += (y_hat == y.reshape(y_hat.shape, -1)).sum().float()
+            num += y.numel()
+    return correct / num, loss / num
 
 
 def grad_clipping(net, theta):
@@ -275,3 +282,24 @@ def mean_embeddings(embeddings: torch.Tensor) -> torch.Tensor:
     if len(embeddings.shape) == 1:
         return embeddings
     return torch.mean(embeddings, dim=0)
+
+
+def sequential_embeddings(embeddings: torch.Tensor, length=50) -> torch.Tensor:
+    if len(embeddings.shape) == 1:
+        embeddings = torch.stack([embeddings])
+    le = embeddings.shape[0]
+    if le < length:
+        zeros = torch.zeros(length - le, embeddings.shape[1])
+        embeddings = torch.cat([embeddings, zeros])
+    elif le > length:
+        embeddings = embeddings[:length, :]
+    return embeddings
+
+
+def PCA(data, device="cpu", k=2):
+    X = data.to(device)
+    X_mean = torch.mean(X, 0)
+    X = X - X_mean.expand_as(X)
+    U, S, V = torch.svd(torch.t(X))  # U*Diag(S)*V_T
+
+    return torch.mm(X, U[:, :k])
