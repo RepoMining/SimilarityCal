@@ -5,7 +5,7 @@ Accuracy: **83.3%**, Avg loss: **0.369534**
 
 recall of every test dataset class:  **[0.8314, 0.9880]**
 
-precision of every test dataset class:  **[0.9998, 0.0600]**
+precision of every test dataset class:  **[0.9139, 0.9938]**
 
 
 
@@ -16,4 +16,4 @@ Accuracy: **91.5%**, Avg loss: **0.212804**
 
 recall of every test dataset class:  **[0.9201, 0.9938]**
 
-precision of every test dataset class:  **[0.9999, 0.1194]**
+precision of every test dataset class:  **[0.9932, 0.9203]**
