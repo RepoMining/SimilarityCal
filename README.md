@@ -69,19 +69,19 @@ The perdormance of single embedding classifier is not good.
 
 
 | Embedding type | Train accuracy | Train loss | Valid accuracy | Valid loss |
-| ---------------- | ---------------- | ------------ | ---------------- | ------------ |
-| Codes          | 87.5%          | 0.003      | 80.6%          | 0.004      |
-| Document       | 48.9%          | 0.005      | 50%            | 0.005      |
-| requirement    | 50%            | 0.005      | 50.1%          | 0.005      |
-| README         | 48%            | 0.005      | 50.1%          | 0.005      |
+|----------------|----------------| ------------ |----------------| ------------ |
+| Codes          | 87.8%          | 0.003      | 81.7%          | 0.004      |
+| Document       | 69.9%          | 0.005      | 52.34%         | 0.005      |
+| Requirement    | 61%            | 0.005      | 54.02%         | 0.005      |
+| README         | 64.8%          | 0.005      | 55.13%         | 0.005      |
 
 
 However, the performance of repo embedding classifier is close to mean stregety.
 
 
 | Accuracy | Loss   | Recall           | Precision        | Effectiveness |
-| ---------- | -------- | ------------------ | ------------------ | --------------- |
-| 88.9%    | 0.2613 | [0.8947, 0.9888] | [0.9877, 0.9038] | 55/200        |
+| ---------- | -------- |------------------| ------------------ | --------------- |
+| 88.9%    | 0.2613 | [0.8880, 0.9888] | [0.9877, 0.9038] | 55/200        |
 
 
 ## Calculate Similarity
