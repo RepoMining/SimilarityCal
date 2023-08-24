@@ -40,7 +40,9 @@ Firstly, we build the network by taking the mean embedding on a single level as 
 
 ### Repository-level mean embedding as input
 Then, we build the network by taking the repository-level mean embedding as input, and its architecture is shown below.
-![multi-class_repo.png](./assets/multi-class_repo.png)
+<div align=center>
+  <img src="./assets/multi-class_repo.png" width="40%" height="40%"/>
+</div>
 
 ## Binary classification model: mean embedding strategy
 
