@@ -162,7 +162,7 @@ where
 ```
 The ```output.pkl``` is the same one in the RepoSim4Py project [output](https://github.com/RepoMining/RepoSim4Py/tree/main/Script/output) folder.
 
-Finally, the execution results of models No.1 and No.2 (binary classification models) are shown in the ```scripts/mean_result```, while the execution result of model No.3 (binary classification model based on GRU/RNNs model) is shown in the ```scripts/sequential_result```.
+Finally, the execution results of models No.1 and No.2 (binary classification models) are shown in the ```scripts/mean_result``` folder, while the execution result of model No.3 (binary classification model based on GRU/RNNs model) is shown in the ```scripts/sequential_result``` folder.
 
 ## Comparison results analysis
 The similarity calculation result (using models No.1, No.2, and No.3) compared to RepoSim4Py is shown in the [evaluation_comparison_result.csv](https://github.com/RepoMining/SimilarityCal/blob/main/scripts/evaluation_comparison_result.csv) file.
