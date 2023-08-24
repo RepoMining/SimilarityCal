@@ -1,8 +1,3 @@
-<style>
-  .table{
-    margin: auto;
-  }
-</style>
 # SimilarityCal
 ## Description
 SimilarityCal is a project for determining semantic similarity by using classification models among Python repositories based on the [RepoSim4Py](https://github.com/RepoMining/RepoSim4Py) project, which uses cosine similarity to calculate similarity directly.
@@ -62,7 +57,7 @@ Similar to the multi-class classifier, we first defined a binary classifier that
 </div>
 
 The evaluation result is shown below.
-<div class="table">
+<div style="align:center">
 | Embedding type | Train accuracy | Valid accuracy |
 |----------------|----------------| ------------ |
 | codes-level          | 92.1%    | 71.05%         |
