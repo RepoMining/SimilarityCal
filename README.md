@@ -12,7 +12,7 @@ The No. 1 and No. 2 models are saved in the ```mean/TWINS_MODEL``` folder, while
 
 All saved models have similar designs, including a shared feature selector and a classifier, as shown below.
 <div align=center>
-  <img src="./assets/image.png" width="40%" height="40%"/>
+  <img src="./assets/image.png" width="30%" height="30%"/>
 </div>
 
 ## Quick tips
@@ -35,13 +35,13 @@ In the following, we will just show diagrams of our model architecture and not s
 ### Single-level mean embedding as input
 Firstly, we build the network by taking the mean embedding on a single level as input, and its architecture is shown below.
 <div align=center>
-  <img src="./assets/multi-class_single.png" width="40%" height="40%"/>
+  <img src="./assets/multi-class_single.png" width="30%" height="30%"/>
 </div>
 
 ### Repository-level mean embedding as input
 Then, we build the network by taking the repository-level mean embedding as input, and its architecture is shown below.
 <div align=center>
-  <img src="./assets/multi-class_repo.png" width="40%" height="40%"/>
+  <img src="./assets/multi-class_repo.png" width="60%" height="60%"/>
 </div>
 
 ## Binary classification model: mean embedding strategy
