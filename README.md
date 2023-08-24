@@ -35,13 +35,13 @@ In the following, we will just show diagrams of our model architecture and not s
 ### Single-level mean embedding as input
 Firstly, we build the network by taking the mean embedding on a single level as input, and its architecture is shown below.
 <div align=center>
-  <img src="./assets/multi-class_single.png" width="30%" height="30%"/>
+  <img src="./assets/multi-class_single.png" width="20%" height="20%"/>
 </div>
 
 ### Repository-level mean embedding as input
 Then, we build the network by taking the repository-level mean embedding as input, and its architecture is shown below.
 <div align=center>
-  <img src="./assets/multi-class_repo.png" width="60%" height="60%"/>
+  <img src="./assets/multi-class_repo.png" width="80%" height="80%"/>
 </div>
 
 ## Binary classification model: mean embedding strategy
