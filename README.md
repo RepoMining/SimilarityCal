@@ -147,9 +147,3 @@ where
 The ```output.pkl``` is the same one in [output](https://github.com/RepoMining/RepoSim4Py/tree/main/Script/output) folder.
 
 Finally, the similarity calculation result compared to RepoSim4Py is shown in the [evaluation_comparison_result.csv](https://github.com/RepoMining/SimilarityCal/blob/main/scripts/evaluation_comparison_result.csv) file.
-
-<style>
-table {
-margin: auto;
-}
-</style>
