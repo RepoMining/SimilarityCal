@@ -134,7 +134,7 @@ Using the effectiveness metric to evaluate the binary classification model based
 | No.3 | 88.9%    | 0.2613 | [0.8880, 0.9888] | [0.9877, 0.9038] | 55/200        |
 </div>
 
-However, the performance of No.3 is close to No.1 and No.2 by using ```mean embedding```  strategy, but No.3 takes lots of training time. More details of the training process and evaluation process can be found in the [sequential/sequential_trainer.ipynb](https://github.com/RepoMining/SimilarityCal/blob/main/sequential/sequential_trainer.ipynb) file.
+However, the performance of No.3, using ```embeddings``` strategy, is close to No.1 and No.2 by using ```mean embedding```  strategy, but No.3 takes lots of training time. More details of the training process and evaluation process can be found in the [sequential/sequential_trainer.ipynb](https://github.com/RepoMining/SimilarityCal/blob/main/sequential/sequential_trainer.ipynb) file.
 
 ## Similarity calculation on binary classification model
 
