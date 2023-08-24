@@ -75,15 +75,21 @@ Then, we proposed a binary classifier that takes repository-level embedding as i
 </div>
 
 The evaluation result is shown below.
+<div align=center>
+  
 | Embedding type | Train accuracy | Valid accuracy |
 |----------------|----------------| ------------ |
 | repository-level          | 99.7%    | 94.21%  |
+</div>
 
 In addition to using the accuracy metric to evaluate classification models, we propose using the effectiveness metric to evaluate classification models. The effectiveness metric calculates the rate at which the same repository pairs can get over 95% probability. In the end, we saved two models based on repository-level embedding as input (No.1 and No.2), and they were evaluated as shown below.
+<div align=center>
+  
 | Models | Accuracy | Loss   | Recall           | Precision        | Effectiveness |
 | -------- | ---------- | -------- | ------------------ | ------------------ | --------------- |
 | No.1 | 91.5%    | 0.2128 | [0.9201, 0.9938] | [0.9932, 0.9203] | 71/200        |
 | No.2 | 83.3%    | 0.3695 | [0.8314, 0.9880] | [0.9139, 0.9938] | 172/200       |
+</div>
 
 The training process and evaluation process is in the [mean/mean_trainer.ipynb](https://github.com/RepoMining/SimilarityCal/blob/main/mean/mean_trainer.ipynb) notebook.
 
@@ -96,13 +102,15 @@ The architecture of single-level embeddings as input is shown below.
   <img src="./assets/binary_GRU_single.png" width="60%" height="60%"/>
 </div>
 The evaluation result is shown below.
-
+<div align=center>
+  
 | Embedding type | Train accuracy |Valid accuracy |
 |----------------|----------------| ------------ |
 | codes-level          | 87.8%          | 81.7%          |
 | docstrings-level       | 69.9%          | 52.34%         |
 | readmes-level         | 64.8%          | 55.13%         | 
 | requirements-level    | 61%            | 54.02%         | 
+</div>
 
 ### Repository-level embeddings as input
 The architecture of repository-level embeddings as input is shown below.
@@ -111,15 +119,20 @@ The architecture of repository-level embeddings as input is shown below.
 </div>
 
 The evaluation result is shown below.
+<div align=center>
+  
 | Embedding type | Train accuracy | Valid accuracy |
 |----------------|----------------| ------------ |
 | repository-level          | 99.8%    | 90.4%  |
+</div>
 
 Using the effectiveness metric to evaluate the binary classification model based on GRU/RNNs model (only saved 1 model named No.3).
-
+<div align=center>
+  
 | Models | Accuracy | Loss   | Recall           | Precision        | Effectiveness |
 | ---------- | -------- |------------------| ------------------ | --------------- | --------------- |
 | No.3 | 88.9%    | 0.2613 | [0.8880, 0.9888] | [0.9877, 0.9038] | 55/200        |
+</div>
 
 However, the performance of No.3 is close to No.1 and No.2 by using ```mean embedding```  strategy, but No.3 takes lots of training time. More details of the training process and evaluation process can be found in the [sequential/sequential_trainer.ipynb](https://github.com/RepoMining/SimilarityCal/blob/main/sequential/sequential_trainer.ipynb) file.
 
