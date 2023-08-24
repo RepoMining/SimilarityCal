@@ -1,4 +1,4 @@
-![multi-class_single](https://github.com/RepoMining/SimilarityCal/assets/47491296/478b253e-d1c9-4071-bda5-4b1c61c23e86)# SimilarityCal
+# SimilarityCal
 ## Description
 SimilarityCal is a project for determining semantic similarity by using classification models among Python repositories based on the [RepoSim4Py](https://github.com/RepoMining/RepoSim4Py) project, which uses cosine similarity to calculate similarity directly.
 
