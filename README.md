@@ -57,7 +57,7 @@ Similar to the multi-class classifier, we first defined a binary classifier that
 </div>
 
 The evaluation result is shown below.
-<div style="align:center">
+<div align=center>
 | Embedding type | Train accuracy | Valid accuracy |
 |----------------|----------------| ------------ |
 | codes-level          | 92.1%    | 71.05%         |
