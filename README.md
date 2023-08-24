@@ -157,13 +157,13 @@ We use [ComparisonResultAnalysis.py](https://github.com/RepoMining/SimilarityCal
   * **Maximum error**: Model No.1 has a max error of 0.44; Model No.2 has 0.36; Model No.3 has a considerably high max error of 0.65.
   * **Error distribution**: From the error distribution plots, we can see Model No.1 and No.2’s errors follow near normal distributions; Model No.3’s error distribution is right-skewed, indicating some large error values.
 <div align=center>
-  <img src="./assets/error_distribution.png" width="60%" height="60%"/>
+  <img src="./assets/error_distribution.png" width="80%" height="80%"/>
 </div>
 
 2. **Error Correlation Analysis**: There exist strong positive correlations amongst different models, with correlation coefficients ranging from 0.82 to 0.94. This suggests systemic biases or overfitting to similar data across models.
 3. **Error over Similarity Score Analysis**: From the scatter plots, we can observe that as the similarity score increases, errors of all three models generally display a decreasing trend, but Model No.3 has some noticeable scattered points.
 <div align=center>
-  <img src="./assets/scatter_plots.png" width="60%" height="60%"/>
+  <img src="./assets/scatter_plots.png" width="80%" height="80%"/>
 </div>
 
 Overall, Model No.1 demonstrates optimal performance across evaluation metrics. Model No.3 shows considerably higher maximum error and potential systemic biases that require further optimisation. This analysis aptly demonstrates the efficacy of the mean embedding approach we have employed, as well as the viability of using binary classification probabilities as a measure of similarity between repositories.
