@@ -1,4 +1,4 @@
-# SimilarityCal
+![multi-class_single](https://github.com/RepoMining/SimilarityCal/assets/47491296/478b253e-d1c9-4071-bda5-4b1c61c23e86)# SimilarityCal
 ## Description
 SimilarityCal is a project for determining semantic similarity by using classification models among Python repositories based on the [RepoSim4Py](https://github.com/RepoMining/RepoSim4Py) project, which uses cosine similarity to calculate similarity directly.
 
@@ -28,8 +28,15 @@ In the design of the multi-class classification model, our initial idea was to e
 
 After experimentation, we discarded the multi-class classification model because our model is overfitting. More specifically, our dataset has only 415 entries, while there are 130 classification labels. This means that, on average, there are only about three samples per label.
 
-In the following, we will just show diagrams of our model architecture and not show the evaluation results of the multi-class classification model, which can be found in the [mean_trainer.ipynb](baidu.com) notebook.
+In the following, we will just show diagrams of our model architecture and not show the evaluation results of the multi-class classification model, which can be found in the [mean_trainer.ipynb](https://github.com/RepoMining/SimilarityCal/blob/main/mean/mean_trainer.ipynb) notebook.
 
+### Single-level mean embedding as input
+Firstly, we build the network by taking the mean embedding on a single level as input, and its architecture is shown below.
+![multi-class_single.png](./assets/multi-class_single.png)
+
+### Repository-level mean embedding as input
+Then, we build the network by taking the repository-level mean embedding as input, and its architecture is shown below.
+![multi-class_repo.png](./assets/multi-class_repo.png)
 
 ## Binary classification model: mean embedding strategy
 
