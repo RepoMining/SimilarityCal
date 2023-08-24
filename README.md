@@ -10,7 +10,7 @@ Then we proposed a binary classification model based on the GRU sequence model u
 
 The No. 1 and No. 2 models are saved in the ```mean/TWINS_MODEL``` folder, while the No. 3 model is in the ```sequential/TWINS_MODEL``` folder.
 
-All saved models have similar designs, including a shared feature selector and a classifier, as shown in the below Figure.
+All saved models have similar designs, including a shared feature selector and a classifier, as shown below.
 ![image.png](./assets/image.png)
 
 ## Usage and prediction
