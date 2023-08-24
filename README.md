@@ -13,13 +13,18 @@ The No. 1 and No. 2 models are saved in the ```mean/TWINS_MODEL``` folder, while
 All saved models have similar designs, including a shared feature selector and a classifier, as shown below.
 ![image.png](./assets/image.png)
 
+## Quick knowledge
+The shape of the ```embeddings``` is (n, 768), where n represents the length of the embeddings and 768 signifies the dimension of the semantic vector space.
+
+The shape of the ```mean embedding``` is (1, 768). In other words, the mean embedding is the result of averaging over the length of the embeddings.
+
 ## Usage and prediction
 You need to change your current directory to the ```scripts``` folder before you enjoy the above features.
-```
+```bash
 cd scripts
 ```
 and then use the following format to run this program.
-```
+```bash
 python calculateSim.py -t sequential -i output.pkl -m "E:\SimilarityCal\sequential\TWINS_MODEL\Best_Param_2023-07-24 16-54-35.596111.pt" -o sequential
 ```
 where
