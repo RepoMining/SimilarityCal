@@ -53,7 +53,7 @@ We reconstructed the dataset by pairing repositories from the [awesome-python](h
 ### Single-level mean embedding as input
 Similar to the multi-class classifier, we first defined a binary classifier that solely accepts a single embedding as its input. The architecture of this classifier can be seen below.
 <div align=center>
-  <img src="./assets/binary_single" width="80%" height="80%"/>
+  <img src="./assets/binary_single.png" width="80%" height="80%"/>
 </div>
 
 The evaluation result is shown below.
@@ -68,7 +68,7 @@ The evaluation result is shown below.
 ### Repository-level mean embedding as input
 Then, we proposed a binary classifier that takes repository-level embedding as input. The architecture of this model is illustrated below.
 <div align=center>
-  <img src="./assets/binary_repo" width="80%" height="80%"/>
+  <img src="./assets/binary_repo.png" width="80%" height="80%"/>
 </div>
 
 The evaluation result is shown below.
@@ -90,7 +90,7 @@ The traditional classification models described above are built upon mean embedd
 ### Single-level embeddings as input
 The architecture of single-level embeddings as input is shown below.
 <div align=center>
-  <img src="./assets/binary_GRU_single" width="80%" height="80%"/>
+  <img src="./assets/binary_GRU_single.png" width="80%" height="80%"/>
 </div>
 The evaluation result is shown below.
 
@@ -104,7 +104,7 @@ The evaluation result is shown below.
 ### Repository-level embeddings as input
 The architecture of repository-level embeddings as input is shown below.
 <div align=center>
-  <img src="./assets/binary_GRU_repo" width="80%" height="80%"/>
+  <img src="./assets/binary_GRU_repo.png" width="80%" height="80%"/>
 </div>
 
 The evaluation result is shown below.
